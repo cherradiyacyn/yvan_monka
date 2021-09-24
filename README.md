@@ -2,7 +2,7 @@
 In this repository, a collection of mini-programs in Go that i've written after having watched some videos on the Youtube channel of Mr. Yvan Monka where he explains some mathematics stuff.
 At the tail of each `main.go` file i attached the links to the videos.
 
-## how_to_use
+## usage
 ```
 go run 2_prime_factorization/main.go 132
 ```
