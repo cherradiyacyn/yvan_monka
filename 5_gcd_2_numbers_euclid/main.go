@@ -9,31 +9,34 @@ import (
 
 const max = math.MaxInt32
 
+func nextInt(s string) int {
+	var number int
+	number, err := strconv.Atoi(s)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
+	}
+	if number > max || number < 2 {
+		fmt.Printf("Retry with : 1 < n < %d\n", max)
+		os.Exit(1)
+	}
+	return number
+}
+
 func main() {
 	if len(os.Args) < 3 {
 		fmt.Fprintln(os.Stderr, "No arguments...")
 		os.Exit(1)
 	}
 
-	numbers := make([]int, 0)
-	for i := 1; i < 3; i++ {
-		number, err := strconv.Atoi(os.Args[i])
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%v\n", err)
-			os.Exit(1)
-		}
-		if number > max || number < 2 {
-			fmt.Printf("Retry with : 1 < n < %d\n", max)
-			os.Exit(1)
-		}
-		numbers = append(numbers, number)
-	}
+	number1 := nextInt(os.Args[1])
+	number2 := nextInt(os.Args[2])
 
-	gcd := func(s []int) int {
-		dividend, divisor := s[0], s[1]
-		if s[1] > s[0] {
-			dividend = s[1]
-			divisor = s[0]
+	gcd := func(n1, n2 int) int {
+		dividend, divisor := n1, n2
+		if n2 > n1 {
+			dividend = n2
+			divisor = n1
 		}
 		remainder := 1
 		for remainder != 0 {
@@ -44,10 +47,10 @@ func main() {
 			}
 		}
 		return divisor
-	}(numbers)
+	}(number1, number2)
 
 	if gcd == 1 {
-		fmt.Printf("%d and %d are co-prime to each other.\n", numbers[0], numbers[1])
+		fmt.Printf("%d and %d are co-prime to each other.\n", number1, number2)
 		os.Exit(1)
 	}
 
