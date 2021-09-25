@@ -1,6 +1,6 @@
 # yvan_monka
 In this repository, a collection of mini-programs in Go that i've written after having watched some videos on the Youtube channel of Mr. Yvan Monka where he explains some mathematics stuff.
-At the tail of each `main.go` file i attached the links to the videos.
+At the tail of each `main.go` file, I attached the links to the videos.
 
 ## usage
 ```
