@@ -29,8 +29,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	number1 := nextInt(os.Args[1])
-	number2 := nextInt(os.Args[2])
+	input1 := nextInt(os.Args[1])
+	input2 := nextInt(os.Args[2])
 
 	gcd := func(n1, n2 int) int {
 		dividend, divisor := n1, n2
@@ -47,10 +47,10 @@ func main() {
 			}
 		}
 		return divisor
-	}(number1, number2)
+	}(input1, input2)
 
 	if gcd == 1 {
-		fmt.Printf("%d and %d are co-prime to each other.\n", number1, number2)
+		fmt.Printf("%d and %d are co-prime to each other.\n", input1, input2)
 		os.Exit(1)
 	}
 

@@ -18,22 +18,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	number, err := strconv.Atoi(os.Args[1])
+	input, err := strconv.Atoi(os.Args[1])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
-	if number > max || number < 2 {
+	if input > max || input < 2 {
 		fmt.Printf("Retry with : 1 < n < %d\n", max)
 		os.Exit(1)
 	}
 
-	primeDecomposition := func(n int) map[int]int {
+	primeDecomposition := func(number int) map[int]int {
 		m := make(map[int]int)
 		var isPrime bool
-		for n > 1 {
+		for number > 1 {
 			if isPrime {
-				m[n]++
+				m[number]++
 				break
 			}
 			primesFile, err := os.Open("prime_numbers.txt")
@@ -44,9 +44,9 @@ func main() {
 			scanr := bufio.NewScanner(primesFile)
 			for scanr.Scan() {
 				pn, _ := strconv.Atoi(scanr.Text())
-				if n%pn == 0 {
+				if number%pn == 0 {
 					m[pn]++
-					n /= pn
+					number /= pn
 					break
 				}
 				if pn > int(math.Sqrt(max)) {
@@ -56,12 +56,12 @@ func main() {
 			primesFile.Close()
 		}
 		return m
-	}(number)
+	}(input)
 
 	for _, v := range primeDecomposition {
 		if len(primeDecomposition) == 1 {
 			if v == 1 {
-				fmt.Printf("%d is prime.\n", number)
+				fmt.Printf("%d is prime.\n", input)
 				os.Exit(1)
 			}
 		}
@@ -70,11 +70,11 @@ func main() {
 	divisors := func(m map[int]int) []int {
 		ss := make([][]int, 0)
 		for k, v := range m {
-			t := make([]int, 0)
+			temp := make([]int, 0)
 			for i := v; i >= 0; i-- {
-				t = append(t, int(math.Pow(float64(k), float64(i))))
+				temp = append(temp, int(math.Pow(float64(k), float64(i))))
 			}
-			ss = append(ss, t)
+			ss = append(ss, temp)
 		}
 		s := ss[0]
 		for i := 1; i < len(ss); i++ {

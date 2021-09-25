@@ -16,7 +16,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	numbers := make([]int, 0)
+	inputs := make([]int, 0)
 	for i := 1; i < 3; i++ {
 		number, err := strconv.Atoi(os.Args[i])
 		if err != nil {
@@ -27,18 +27,18 @@ func main() {
 			fmt.Printf("Retry with : 1 < n < %d\n", max)
 			os.Exit(1)
 		}
-		numbers = append(numbers, number)
+		inputs = append(inputs, number)
 	}
 
 	primeDecompositions := func(s []int) []map[int]int {
 		sm := make([]map[int]int, 0)
 		for i := 0; i < len(s); i++ {
-			onePrimeDecomposition := func(n int) map[int]int {
+			onePrimeDecomposition := func(number int) map[int]int {
 				m := make(map[int]int)
 				var isPrime bool
-				for n > 1 {
+				for number > 1 {
 					if isPrime {
-						m[n]++
+						m[number]++
 						break
 					}
 					primesFile, err := os.Open("prime_numbers.txt")
@@ -49,9 +49,9 @@ func main() {
 					scanr := bufio.NewScanner(primesFile)
 					for scanr.Scan() {
 						pn, _ := strconv.Atoi(scanr.Text())
-						if n%pn == 0 {
+						if number%pn == 0 {
 							m[pn]++
-							n = n / pn
+							number /= pn
 							break
 						}
 						if pn > int(math.Sqrt(max)) {
@@ -65,16 +65,16 @@ func main() {
 			sm = append(sm, onePrimeDecomposition)
 		}
 		return sm
-	}(numbers)
+	}(inputs)
 
-	limit := numbers[0]
-	if numbers[1] > numbers[0] {
-		limit = numbers[1]
+	largest := inputs[0]
+	if inputs[1] > inputs[0] {
+		largest = inputs[1]
 	}
 
-	lcm := func(l int, sm []map[int]int) int {
+	lcm := func(limit int, sm []map[int]int) int {
 		m := make(map[int]int, 0)
-		for i := 2; i <= l; i++ {
+		for i := 2; i <= limit; i++ {
 			c := 0
 			for _, m := range sm {
 				if m[i] > c {
@@ -90,12 +90,12 @@ func main() {
 			lcm *= int(math.Pow(float64(k), float64(v)))
 		}
 		return lcm
-	}(limit, primeDecompositions)
+	}(largest, primeDecompositions)
 
-	gcd := func(l int, sm []map[int]int) int {
+	gcd := func(limit int, sm []map[int]int) int {
 		m := make(map[int]int, 0)
-		for i := 2; i <= l; i++ {
-			c := l
+		for i := 2; i <= limit; i++ {
+			c := limit
 			for _, m := range sm {
 				if m[i] < c {
 					c = m[i]
@@ -110,7 +110,7 @@ func main() {
 			gcd *= int(math.Pow(float64(k), float64(v)))
 		}
 		return gcd
-	}(limit, primeDecompositions)
+	}(largest, primeDecompositions)
 
 	fmt.Printf("lcm : %d\n", lcm)
 	fmt.Printf("gcd : %d\n", gcd)

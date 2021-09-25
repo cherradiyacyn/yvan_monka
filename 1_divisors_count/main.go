@@ -18,22 +18,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	number, err := strconv.Atoi(os.Args[1])
+	input, err := strconv.Atoi(os.Args[1])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
-	if number > max || number < 2 {
+	if input > max || input < 2 {
 		fmt.Printf("Retry with : 1 < n < %d\n", max)
 		os.Exit(1)
 	}
 
-	primeDecomposition := func(n int) map[int]int {
+	primeDecomposition := func(number int) map[int]int {
 		m := make(map[int]int)
 		var isPrime bool
-		for n > 1 {
+		for number > 1 {
 			if isPrime {
-				m[n]++
+				m[number]++
 				break
 			}
 			primesFile, err := os.Open("prime_numbers.txt")
@@ -44,9 +44,9 @@ func main() {
 			scanr := bufio.NewScanner(primesFile)
 			for scanr.Scan() {
 				pn, _ := strconv.Atoi(scanr.Text())
-				if n%pn == 0 {
+				if number%pn == 0 {
 					m[pn]++
-					n /= pn
+					number /= pn
 					break
 				}
 				if pn > int(math.Sqrt(max)) {
@@ -56,14 +56,14 @@ func main() {
 			primesFile.Close()
 		}
 		return m
-	}(number)
+	}(input)
 
 	divisorsCount := func(m map[int]int) int {
-		n := 1
+		dc := 1
 		for _, v := range m {
-			n *= (v + 1)
+			dc *= (v + 1)
 		}
-		return n
+		return dc
 	}(primeDecomposition)
 
 	if divisorsCount == 2 {
@@ -72,7 +72,7 @@ func main() {
 
 	}
 
-	fmt.Printf("Divisors' count : %d\n", divisorsCount)
+	fmt.Printf("Divisors count : %d\n", divisorsCount)
 }
 
 // https://youtu.be/k0rhj8fwdjs
