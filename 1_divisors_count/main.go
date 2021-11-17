@@ -67,7 +67,7 @@ func main() {
 	}(primeDecomposition)
 
 	if divisorsCount == 2 {
-		fmt.Printf("%d is prime.\n", divisorsCount)
+		fmt.Printf("%d is prime.\n", input)
 		os.Exit(1)
 
 	}
