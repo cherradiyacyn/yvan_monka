@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-const max = 42
+const max = math.MaxInt32
 
 func main() {
 	if len(os.Args) < 3 {
